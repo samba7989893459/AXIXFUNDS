@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>${artifactIdWithoutScalaVersion}-docs-generator</artifactId>
+  <version>0-SNAPSHOT</version>
+
+  <name>${project.artifactId}</name>
+  <description>Generates the ${artifactIdWithoutScalaVersion} documentation, for internal use only.</description>
+
+  <parent>
+    <groupId>net.jackadull</groupId>
+    <artifactId>scala-parent_2.12</artifactId>
+    <version>1.5.1</version>
+    <relativePath></relativePath>
+  </parent>
+
+  <properties>
+    <version.dependency.jackadocs>0.4.0</version.dependency.jackadocs>
+    <version.dependency.main-project>0.1.0-SNAPSHOT</version.dependency.main-project>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>net.jackadull</groupId>
+      <artifactId>AXIX</artifactId>
+      <version>${version.dependency.main-project}</version>
+    </dependency>
+    <dependency>
+      <groupId>net.jackadull</groupId>
+      <artifactId>jackadocs_${version.language.scala.compat}</artifactId>
+      <version>${version.dependency.jackadocs}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.scala-lang.modules</groupId>
+      <artifactId>scala-xml_${version.language.scala.compat}</artifactId>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <configuration>
+          <mainClass>${artifactPackage}.docs.Main</mainClass>
+          <arguments>
+            <argument>${project.basedir}</argument>
+          </arguments>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <profiles>
+    <profile>
+      <id>jackadull-release</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <configuration>
+              <arguments>
+                <argument>${project.basedir}</argument>
+                <argument>-V</argument>
+              </arguments>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+</project>
